@@ -8,8 +8,37 @@ html {
   background-color: rgb(185, 185, 248);
 }
 
+.weather-icon {
+  width: 50%;
+  max-width: 400px;
+  margin: 2rem;
+  pointer-events: none;
+
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-delay: 0s;
+}
+
 body {
   margin: 0;
+  width: 100vw;
+  height: 100vh;
+
+  animation-name: fadeIn;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in;
+  animation-delay: 0s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .header {
@@ -30,6 +59,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  border-right: 0.3rem solid rgba(4, 4, 95, 0.3);
 }
 
 .header-current-temp {
@@ -60,11 +91,4 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   font-size: 1.3rem;
-}
-
-.weather-icon {
-  width: 50%;
-  max-width: 400px;
-  margin: 2rem;
-  pointer-events: none;
 }
