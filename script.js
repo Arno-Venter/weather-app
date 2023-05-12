@@ -90,6 +90,44 @@ function parseWeather(weather, day) {
   };
 }
 
+function parseDailyWeather(weather) {
+  let codes = [];
+  for (let i = 0; i < weather.daily.weathercode.length; i++)
+    codes[i] = weather.daily.weathercode[i];
+
+  return {
+    fl_max: weather.daily.apparent_temperature_max,
+    fl_min: weather.daily.apparent_temperature_min,
+    precip: weather.daily.precipitation_probability_max,
+    temp_max: weather.daily.temperature_2m_max,
+    temp_min: weather.daily.temperature_2m_min,
+    icons: codes,
+    date: weather.daily.time,
+  };
+}
+
+function setDailyWeather(weather) {
+  for (let i = 0; i < 7; i++) {
+    let date = document.querySelector(
+      `[data-day${i}-date]`
+    );
+    let icon = document.querySelector(
+      `[data-day${i}-icon]`
+    );
+    let max = document.querySelector(`[data-day${i}-max]`);
+    let min = document.querySelector(`[data-day${i}-min]`);
+    let precip = document.querySelector(
+      `[data-day${i}-precip]`
+    );
+
+    date.textContent = weather.date[i];
+    icon.src = mapWeatherCode(weather.icons[i]);
+    max.textContent = weather.temp_max[i];
+    min.textContent = weather.temp_min[i];
+    precip.textContent = weather.precip[i];
+  }
+}
+
 async function getWeather() {
   const response = await fetch(
     `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max&current_weather=true&forecast_days=7&timezone=auto`
@@ -145,4 +183,6 @@ findState()
     let weather = await getWeather();
     let currentWeatherData = parseWeather(weather, 0);
     setQuickWeather(currentWeatherData);
+    let dailyWeatherData = parseDailyWeather(weather);
+    setDailyWeather(dailyWeatherData);
   });
