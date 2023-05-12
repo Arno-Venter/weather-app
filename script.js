@@ -65,9 +65,13 @@ function mapWeatherCode(code) {
   }
 }
 
-function parseWeather(weather) {
+function parseWeather(weather, day) {
   let precip_sum = 0;
-  for (let i = 0; i < 24; i++)
+  for (
+    let i = 0;
+    weather.hourly.precipitation.length < 24;
+    i++
+  )
     precip_sum += weather.hourly.precipitation[i];
 
   let weatherIcon = mapWeatherCode(
@@ -76,30 +80,30 @@ function parseWeather(weather) {
 
   return {
     temp_current: weather.current_weather.temperature,
-    temp_high: Math.max(...weather.hourly.temperature_2m),
-    temp_low: Math.min(...weather.hourly.temperature_2m),
-    fl_low: Math.min(
-      ...weather.hourly.apparent_temperature
-    ),
-    fl_high: Math.max(
-      ...weather.hourly.apparent_temperature
-    ),
+    temp_high: weather.daily.temperature_2m_max[day],
+    temp_low: weather.daily.temperature_2m_min[day],
+    fl_low: weather.daily.apparent_temperature_min[day],
+    fl_high: weather.daily.apparent_temperature_max[day],
     wind: weather.current_weather.windspeed,
-    precip: Math.round(precip_sum),
+    precip: weather.daily.precipitation_probability_max[0],
     icon: weatherIcon,
   };
 }
 
 async function getWeather() {
   const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&current_weather=true&timezone=auto`
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max&current_weather=true&forecast_days=7&timezone=auto`
   );
   const jsonData = await response.json();
+  console.log(jsonData);
   return jsonData;
 }
 
 function setQuickWeather(weather) {
   let icon = document.querySelector("[data-current-icon]");
+  if (weather.icon == "icons/sun.svg")
+    icon.classList.add("icon-sun-turn");
+  else icon.classList.add("icon-rain-updown");
   icon.src = weather.icon;
 
   let currentTemp = document.querySelector(
@@ -139,6 +143,6 @@ findState()
   })
   .then(async () => {
     let weather = await getWeather();
-    let weatherData = parseWeather(weather);
-    setQuickWeather(weatherData);
+    let currentWeatherData = parseWeather(weather, 0);
+    setQuickWeather(currentWeatherData);
   });

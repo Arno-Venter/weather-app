@@ -1,11 +1,38 @@
 * {
   box-sizing: border-box;
-  font-family: sans-serif;
-  color: rgb(4, 4, 95);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
+  color: black;
 }
 
 html {
-  background-color: rgb(185, 185, 248);
+  background: linear-gradient(
+        45deg,
+        rgb(144, 118, 228) 0%,
+        rgba(201, 12, 38, 0) 70%
+      )
+      repeat scroll 0% 0%,
+    linear-gradient(
+        135deg,
+        rgb(225, 5, 152) 10%,
+        rgba(49, 5, 209, 0) 80%
+      )
+      repeat scroll 0% 0%,
+    linear-gradient(
+        225deg,
+        hsla(179, 81%, 45%, 1) 10%,
+        rgba(10, 219, 216, 0) 80%
+      )
+      repeat scroll 0% 0%,
+    rgba(0, 0, 0, 0)
+      linear-gradient(
+        315deg,
+        rgb(199, 145, 216) 100%,
+        rgba(9, 245, 5, 0) 70%
+      )
+      repeat scroll 0% 0%;
+
+  /*rgb(185, 185, 248) */
 }
 
 .weather-icon {
@@ -13,11 +40,43 @@ html {
   max-width: 400px;
   margin: 2rem;
   pointer-events: none;
+}
 
-  animation-name: fadeIn;
-  animation-duration: 1s;
-  animation-timing-function: ease-in;
+.icon-rain-updown {
+  animation-name: upDown;
+  animation-duration: 2s;
   animation-delay: 0s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes upDown {
+  from {
+    transform: translatey(-5%);
+  }
+
+  to {
+    transform: translatey(5%);
+  }
+}
+
+.icon-sun-turn {
+  animation-name: turnAround;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes turnAround {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 body {
@@ -86,6 +145,10 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.info-group span {
+  font-size: 1.2rem;
 }
 .label {
   font-weight: bold;
