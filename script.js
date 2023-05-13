@@ -85,7 +85,7 @@ function parseWeather(weather, day) {
     fl_low: weather.daily.apparent_temperature_min[day],
     fl_high: weather.daily.apparent_temperature_max[day],
     wind: weather.current_weather.windspeed,
-    precip: weather.daily.precipitation_probability_max[0],
+    precip: weather.daily.precipitation_sum[0],
     icon: weatherIcon,
   };
 }
@@ -98,7 +98,7 @@ function parseDailyWeather(weather) {
   return {
     fl_max: weather.daily.apparent_temperature_max,
     fl_min: weather.daily.apparent_temperature_min,
-    precip: weather.daily.precipitation_probability_max,
+    precip: weather.daily.precipitation_sum,
     temp_max: weather.daily.temperature_2m_max,
     temp_min: weather.daily.temperature_2m_min,
     icons: codes,
@@ -130,7 +130,7 @@ function setDailyWeather(weather) {
 
 async function getWeather() {
   const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max&current_weather=true&forecast_days=7&timezone=auto`
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,apparent_temperature,precipitation,weathercode,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum&current_weather=true&forecast_days=7&timezone=auto`
   );
   const jsonData = await response.json();
   console.log(jsonData);
