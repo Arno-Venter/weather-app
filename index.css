@@ -178,16 +178,18 @@ body {
   max-width: 50rem;
   height: 70vh;
 
-  border: 0.2rem solid white;
-  border-radius: 5rem;
-
-  background-color: rgba(120, 120, 243, 0.95);
+  background: linear-gradient(
+    45deg,
+    rgb(67, 13, 241) 10%,
+    rgba(201, 12, 38, 1) 70%
+  );
+  border-radius: 1rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  visibility: visible;
+  visibility: hidden;
   z-index: 1;
 }
 
@@ -196,29 +198,51 @@ body {
 }
 
 .hour-table {
-  width: 90%;
+  width: 100%;
+  height: 100%;
   overflow-x: hidden;
+  border-collapse: collapse;
 }
 
 tr {
-  text-align: left;
+  text-align: center;
+  border-bottom: 0.1rem solid rgba(255, 255, 255, 0.5);
+}
+
+tr:last-child {
+  border: none;
+}
+
+th:first-child {
+  border-radius: 1rem 0 0 0;
+}
+
+th:last-child {
+  border-radius: 0 1rem 0 0;
 }
 
 th,
 td {
-  border-bottom: 0.1rem solid white;
   font-size: 1.3rem;
+}
+
+td {
+  color: rgb(240, 229, 229);
 }
 
 .exit {
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   position: absolute;
-  right: 4%;
-  top: 1%;
+  right: 1%;
+  top: -0.5%;
 }
 
 .exit:hover {
   color: white;
   cursor: pointer;
+}
+
+.blur {
+  filter: blur(0.1rem);
 }

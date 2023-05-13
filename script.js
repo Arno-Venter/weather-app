@@ -174,6 +174,38 @@ function setQuickWeather(weather) {
   precip.textContent = weather.precip;
 }
 
+function setHourlyWeather(weather, dayNum) {
+  let table = document.querySelector("table");
+  if (table.children.length > 1)
+    table.removeChild(table.lastChild);
+  let body = document.createElement("tbody");
+
+  for (let i = dayNum * 24; i < dayNum * 24 + 24; i++) {
+    let tRow = document.createElement("tr");
+
+    let time = document.createElement("td");
+    let temp = document.createElement("td");
+    let fl = document.createElement("td");
+    let precip = document.createElement("td");
+
+    time.textContent = weather.time[i].slice(
+      weather.time[i].indexOf("T") + 1
+    );
+    temp.textContent = weather.temperature_2m[i] + "°";
+    fl.textContent = weather.apparent_temperature[i] + "°";
+    precip.textContent = weather.precipitation[i] + "mm";
+
+    tRow.appendChild(time);
+    tRow.appendChild(temp);
+    tRow.appendChild(fl);
+    tRow.appendChild(precip);
+
+    body.appendChild(tRow);
+  }
+
+  table.appendChild(body);
+}
+
 findState()
   .then((geo) => {
     lat = geo.coords.latitude;
@@ -189,12 +221,15 @@ findState()
     let dayContainer = document.querySelector(
       ".daily-container"
     );
+    let currentContainer =
+      document.querySelector(".header");
     let hourContainer =
       document.querySelector(".daily-view");
-
     let exitBtn = document.querySelector(".exit");
     exitBtn.addEventListener("click", () => {
       hourContainer.classList.remove("visible");
+      dayContainer.classList.remove("blur");
+      currentContainer.classList.remove("blur");
       dayContainer.style.pointerEvents = "auto";
     });
     for (let i = 0; i < 7; i++) {
@@ -202,7 +237,10 @@ findState()
 
       dayCard.addEventListener("click", () => {
         hourContainer.classList.add("visible");
+        dayContainer.classList.add("blur");
+        currentContainer.classList.add("blur");
         dayContainer.style.pointerEvents = "none";
+        setHourlyWeather(weather.hourly, i);
       });
     }
   });
