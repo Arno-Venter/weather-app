@@ -185,4 +185,24 @@ findState()
     setQuickWeather(currentWeatherData);
     let dailyWeatherData = parseDailyWeather(weather);
     setDailyWeather(dailyWeatherData);
+
+    let dayContainer = document.querySelector(
+      ".daily-container"
+    );
+    let hourContainer =
+      document.querySelector(".daily-view");
+
+    let exitBtn = document.querySelector(".exit");
+    exitBtn.addEventListener("click", () => {
+      hourContainer.classList.remove("visible");
+      dayContainer.style.pointerEvents = "auto";
+    });
+    for (let i = 0; i < 7; i++) {
+      let dayCard = dayContainer.children[i];
+
+      dayCard.addEventListener("click", () => {
+        hourContainer.classList.add("visible");
+        dayContainer.style.pointerEvents = "none";
+      });
+    }
   });

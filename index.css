@@ -66,6 +66,8 @@ body {
 
   overflow: hidden;
 
+  user-select: none;
+
   animation-name: fadeIn;
   animation-duration: 0.2s;
   animation-timing-function: ease-in;
@@ -164,4 +166,59 @@ body {
   width: 15%;
   max-width: 180px;
   max-height: 10vh;
+}
+
+.daily-view {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 70vw;
+  max-width: 50rem;
+  height: 70vh;
+
+  border: 0.2rem solid white;
+  border-radius: 5rem;
+
+  background-color: rgba(120, 120, 243, 0.95);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  visibility: visible;
+  z-index: 1;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.hour-table {
+  width: 90%;
+  overflow-x: hidden;
+}
+
+tr {
+  text-align: left;
+}
+
+th,
+td {
+  border-bottom: 0.1rem solid white;
+  font-size: 1.3rem;
+}
+
+.exit {
+  font-weight: bold;
+  font-size: 2rem;
+  position: absolute;
+  right: 4%;
+  top: 1%;
+}
+
+.exit:hover {
+  color: white;
+  cursor: pointer;
 }
