@@ -1,3 +1,5 @@
+//openmeteo weather API
+
 let lat;
 let lon;
 
@@ -86,7 +88,10 @@ function parseWeather(weather, day) {
     fl_high: weather.daily.apparent_temperature_max[day],
     wind: weather.current_weather.windspeed,
     precip: weather.daily.precipitation_sum[0],
-    icon: weatherIcon,
+    icon:
+      weather.current_weather.is_day == 1
+        ? weatherIcon
+        : "icons/moon.svg",
   };
 }
 
@@ -120,7 +125,33 @@ function setDailyWeather(weather) {
       `[data-day${i}-precip]`
     );
 
-    date.textContent = weather.date[i];
+    let day = new Date(weather.date[i]);
+    let dayName;
+    switch (day.getDay()) {
+      case 0:
+        dayName = "Sunday";
+        break;
+      case 1:
+        dayName = "Monday";
+        break;
+      case 2:
+        dayName = "Tuesday";
+        break;
+      case 3:
+        dayName = "Wednesday";
+        break;
+      case 4:
+        dayName = "Thursday";
+        break;
+      case 5:
+        dayName = "Friday";
+        break;
+      case 6:
+        dayName = "Saturday";
+        break;
+    }
+
+    date.textContent = i !== 0 ? dayName : "Today";
     icon.src = mapWeatherCode(weather.icons[i]);
     max.textContent = weather.temp_max[i];
     min.textContent = weather.temp_min[i];
@@ -141,6 +172,8 @@ function setQuickWeather(weather) {
   let icon = document.querySelector("[data-current-icon]");
   if (weather.icon == "icons/sun.svg")
     icon.classList.add("icon-sun-turn");
+  // else if (weather.icon == "icons/moon.svg")
+  //   icon.classList.add("icon-moon-effect");
   else icon.classList.add("icon-rain-updown");
   icon.src = weather.icon;
 
@@ -228,6 +261,7 @@ findState()
     let exitBtn = document.querySelector(".exit");
     exitBtn.addEventListener("click", () => {
       hourContainer.classList.remove("visible");
+      hourContainer.classList.remove("animate-slideIn");
       dayContainer.classList.remove("blur");
       currentContainer.classList.remove("blur");
       dayContainer.style.pointerEvents = "auto";
@@ -237,6 +271,7 @@ findState()
 
       dayCard.addEventListener("click", () => {
         hourContainer.classList.add("visible");
+        hourContainer.classList.add("animate-slideIn");
         dayContainer.classList.add("blur");
         currentContainer.classList.add("blur");
         dayContainer.style.pointerEvents = "none";

@@ -17,7 +17,7 @@ html {
 
 .weather-icon {
   width: 50%;
-  max-width: 400px;
+  max-width: 300px;
   margin: 2rem;
   pointer-events: none;
 }
@@ -156,6 +156,10 @@ body {
   border-bottom: 0.3rem solid rgba(4, 4, 95, 0.3);
 }
 
+.daily-card .label {
+  width: 3rem;
+}
+
 .daily-card:hover {
   cursor: pointer;
   background-color: rgba(4, 4, 95, 0.3);
@@ -191,6 +195,13 @@ body {
 
   visibility: hidden;
   z-index: 1;
+}
+
+.animate-slideIn {
+  animation-name: slideIn;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in;
+  animation-delay: 0s;
 }
 
 .visible {
@@ -245,4 +256,16 @@ td {
 
 .blur {
   filter: blur(0.1rem);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate(-100%, -50%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
 }
